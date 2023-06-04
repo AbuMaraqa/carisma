@@ -17,7 +17,7 @@
 
         .bashar{
             padding-top: 450px;
-            background-image: url('assets/img/bcard2.png') !important;
+            background-image: url('storage/images/BFound/{{ $query->ebackground }}') !important;
             background-size:cover ;
             width: 100%;
             height: 100%;
@@ -28,8 +28,9 @@
 <body>
 <div class="bashar" >
 
-    @foreach($list as $p)
 
+
+    @foreach($list as $p)
         <h1 align="center">{{ $p->pname }}</h1>
         <div class="visible-print text-center">
 

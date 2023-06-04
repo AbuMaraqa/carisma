@@ -38,3 +38,15 @@ Route::get('/publisher',[App\Http\Controllers\PublisherController::class, 'index
 Route::post('/getEventIdAPI/{id}',[App\Http\Controllers\EventController::class , 'getEventIdAPI']);
 
 Route::post('/getpublisherLogin',[App\Http\Controllers\PublisherController::class , 'getpublisherLogin']);
+
+Route::get('/getEventName',[App\Http\Controllers\EventController::class , 'getEventName']);
+
+Route::post('/selectPublisherLogin',[App\Http\Controllers\PublisherController::class , 'selectPublisherLogin']);
+
+Route::post('/sentSmsSingle/{id}',[App\Http\Controllers\PublisherController::class , 'sentSmsSingle']);
+
+Route::post('/getUser',[App\Http\Controllers\UsersController::class , 'getUser']);
+
+Route::post('/login',[App\Http\Controllers\UsersController::class , 'login']);
+
+

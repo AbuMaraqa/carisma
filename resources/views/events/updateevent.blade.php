@@ -46,7 +46,7 @@
 
                         @foreach($query as $key)
                     <div class="table-responsive">
-                        <form action="updateEvent" method="post" enctype="multipart/form-data">
+                        <form action="{{ url('/updateEvent/' . $key->eid) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="">اسم المناسبة</label>
@@ -58,21 +58,46 @@
                             </div>
                             <div class="form-group">
                                 <label for="">الوصف</label>
-                                <textarea class="form-control" name="edescription" id="" cols="30" rows="10" placeholder="اكتب الوصف هنا">{{ $key->edescription }}</textarea>
+                                <textarea required class="form-control" name="edescription" id="" cols="30" rows="10" placeholder="اكتب الوصف هنا">{{ $key->edescription }}</textarea>
                             </div>
                             <div>
                                 <div class="mb-3">
                                     <label for="formFile">لإرفاق صورة اضغط هنا</label>
-                                    <input value="{{ $key->eimage }}" type="file" class="form-control" name="eimage" id="formFile">
+                                    <input type="file" class="form-control" name="eimage" id="formFile">
                                 </div>
+                                @if(!is_null($key->eimage))
+                                <img class="img-thumbnail" style="width: 300px;height: 300px" src="{{ asset('/storage/images/Bfound/'.$key->eimage) }}" alt="">
+                                @endif
 
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">لإرفاق صورة الخلفية اضغط هنا</label>
                                     <input value="{{ $key->ebackground }}" class="form-control" name="ebackground" type="file" id="formFile">
                                 </div>
+                                @if(!is_null($key->ebackground))
+                                <img class="img-thumbnail" style="width: 300px;height: 300px" src="{{ asset('/storage/images/Bfound/'.$key->ebackground) }}" alt="">
+                                @endif
+
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">لارفاق صورة الشهادة اضغط هنا</label>
+                                    <input value="{{ $key->certificateimage }}" class="form-control" name="certificateimage" type="file" id="formFile">
+                                </div>
+                                @if(!is_null($key->certificateimage))
+                                    <img class="img-thumbnail" style="width: 300px;height: 300px" src="{{ asset('/storage/images/Bfound/'.$key->certificateimage) }}" alt="">
+                                @endif
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="">يرجى اختيار مستخدم للفعالية الحالية</label>
+                                <div class="form-group">
+                                    <select class="form-control" name="dropdownlist" id="dropdownlist">
+                                        @foreach($user as $key)--}}
+                                        <option value="{{ $key->id }}">{{ $key->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="col-sm-6 col-md-3">
+                            <div class="col-sm-6 col-md-3 pt-4">
                                 <button class="btn btn-primary btn-block">تعديل البيانات</button>
                             </div>
                         </form>

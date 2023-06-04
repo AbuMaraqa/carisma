@@ -6,7 +6,7 @@
 {{--				<a class="desktop-logo logo-dark active" href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/BFound2.png')}}" class="main-logo dark-theme" alt="logo"></a>--}}
 {{--				<a class="logo-icon mobile-logo icon-light active" href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/BFound2.png')}}" class="logo-icon" alt="logo"></a>--}}
 {{--				<a class="logo-icon mobile-logo icon-dark active" href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/BFound2.png')}}" class="logo-icon dark-theme" alt="logo"></a>--}}
-                <h3>BFound Online</h3>
+                <h3 class="desktop-logo logo-light active">كاريزما</h3>
 			</div>
 
 			<div class="main-sidemenu">
@@ -16,8 +16,7 @@
 							<img alt="user-img" class="avatar avatar-xl brround" src="{{URL::asset('assets/img/faces/6.jpg')}}"><span class="avatar-status profile-status bg-green"></span>
 						</div>
 						<div class="user-info">
-							<h4 class="font-weight-semibold mt-3 mb-0">{{ Auth::user()->name }}</h4>
-							<span class="mb-0 text-muted">{{ Auth::user()->email }}</span>
+							<h4 class="font-weight-semibold mt-3 mb-0">كاريزما</h4>
 						</div>
 					</div>
 				</div>
@@ -37,10 +36,47 @@
                         <ul class="slide-menu">
                             <li><a class="slide-item" href="{{ url('/' . $page='listEvents') }}">عرض المناسبات</a></li>
                             <li><a class="slide-item" href="{{ url('/' . $page='addEvent') }}">اضافة مناسبة</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page='getEventReg') }}">اضافة كوفي شوب</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page='settingEvent') }}">الاعدادات</a></li>
                         </ul>
                     </li>
-
-
+                    <li class="slide">
+                        <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><span class="side-menu__icon"><i class="fa fa-gamepad"></i></span><span class="side-menu__label">الالعاب</span><i class="angle fe fe-chevron-down"></i></a>
+                        <ul class="slide-menu">
+                            <li><a class="slide-item" href="{{ url('/' . $page="gameIndex") }}">قائمة الالعاب</a></li>
+                        </ul>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><span class="side-menu__icon"><i class="fa fa-envelope"></i></span><span class="side-menu__label">Royal</span><i class="angle fe fe-chevron-down"></i></a>
+                        <ul class="slide-menu">
+                            <li><a class="slide-item" href="{{ url('/' . $page="getCouponeActive") }}">الكوبونات المسجلة</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page="couponPage") }}">طباعة الكوبونات</a></li>
+                            <li><a class="slide-item" href="{{ route('royal.winner') }}">السحب</a></li>
+                            <li><a class="slide-item" href="{{ route('royal.searchCobon.index') }}">البحث عن كوبون</a></li>
+                            <li><a class="slide-item" href="{{ route('royal.royalGift') }}">سحب هدايا</a></li>
+                        </ul>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><span class="side-menu__icon"><i class="fa fa-envelope"></i></span><span class="side-menu__label">Jawwal</span><i class="angle fe fe-chevron-down"></i></a>
+                        <ul class="slide-menu">
+                            <li><a class="slide-item" href="{{ route('jawwal.index') }}">الكوبونات المسجلة</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page="couponPage") }}">طباعة الكوبونات</a></li>
+                        </ul>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><span class="side-menu__icon"><i class="fa fa-envelope"></i></span><span class="side-menu__label">QR</span><i class="angle fe fe-chevron-down"></i></a>
+                        <ul class="slide-menu">
+                            <li><a class="slide-item" href="{{ route('qr.attachment') }}">Qr PDF</a></li>
+                            <li><a class="slide-item" href="{{ route('qr.link') }}">Qr Link</a></li>
+                        </ul>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><span class="side-menu__icon"><i class="fa fa-envelope"></i></span><span class="side-menu__label">التصويت</span><i class="angle fe fe-chevron-down"></i></a>
+                        <ul class="slide-menu">
+                            <li><a class="slide-item" href="{{ route('polls.index') }}">عرض التصويت</a></li>
+                            <li><a class="slide-item" href="{{ route('polls.addpage') }}">اضافة تصويت</a></li>
+                        </ul>
+                    </li>
 				</ul>
 			</div>
 		</aside>

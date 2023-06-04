@@ -7,18 +7,42 @@
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
-				<div class="breadcrumb-header justify-content-between">
-					<div class="left-content">
-						<div>
-						  <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">مرحبا اهلا بعودتك</h2>
-						</div>
-					</div>
 
-				</div>
 				<!-- /breadcrumb -->
 @endsection
 @section('content')
 				<!-- row -->
+                <div class="row p-4">
+                    @foreach($list as $key)
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-xm-12">
+                            <div class="card overflow-hidden sales-card bg-info-gradient">
+                                <div class="row">
+                                    <div CLASS="col-md-12 p-1 bg-white m-2" align="center">
+                                        <img src="{{ asset('storage/images/Bfound/'.$key->eimage) }}" width="100" height="100" alt="">
+                                    </div>
+                                    <div CLASS="col-md-12" align="center">
+                                        <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                                            <div class="pb-0 mt-0">
+                                                <div class="text-center">
+                                                    <div class="" align="center">
+                                                        <h4 class="tx-20 font-weight-bold mb-1 text-white">{{ $key->ename }}</h4>
+                                                        <p class="mb-0 tx-12 text-white op-7">{{ $key->edescription }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <a class="btn btn-primary btn-sm m-1" href="{{ url('/'. 'getEventId/'.$key->eid) }}">عرض</a>
+                                                <a class="btn btn-primary btn-sm m-1" href="{{ url('/'. 'getDataEvents/'.$key->eid) }}">تعديل</a>
+                                                <a class="btn btn-danger btn-sm m-1" href="{{ url('/'. 'deleteEvent/'.$key->eid) }}">حذف مناسبة</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
 				<div class="row row-sm">
 					<div class="col-xl-6 col-lg-6 col-md-6 col-xm-12">
 						<div class="card overflow-hidden sales-card bg-primary-gradient">

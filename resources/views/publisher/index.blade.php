@@ -34,6 +34,14 @@
                     {{ session::get('fail') }}
                 </div>
             @endif
+                @error('attatchment')<div class="text-danger">{{$message}}</div>@enderror
+                @if($errors->any())
+                    <ol>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ol>
+                @endif
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
@@ -41,24 +49,27 @@
                         <i class="mdi mdi-dots-horizontal text-gray"></i>
                     </div>
                         <div class="row">
-                            <a class="btn btn-primary btn-block" href="{{ url('/addPublisher/'. $id) }}">إضافة مشارك</a>
-                            <form action="{{ url('/exportexcel/' . $id) }}" method="POST" target="_blank">
-                                @csrf
-                                <input type="hidden" value="{{ $id }}">
-                                <button class="btn btn-success btn-block" >">استيراد من اكسل</button>
+                            <a class="btn btn-primary btn-md m-1" href="{{ url('/addPublisher/'. $id) }}">إضافة مشارك</a>
+
+                            <a class="modal-effect btn btn-success btn-md m-1" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">استيراد من اكسل</a>
+
+                            <a class="btn btn-danger btn-md m-1" href="{{ url('/exportPublisher/'.$id) }}">تصدير الى اكسل</a>
+                            <a class="btn btn-dark btn-md m-1" href="{{ url('/smsall/'.$id) }}">ارسال SMS جماعي</a>
+                            <a class="btn btn-secondary btn-md m-1" href="{{ url('exporttopdfall/' . $id) }}">طباعة جميع بطاقات المشتركين</a>
+                            <a class="btn btn-info   btn-md m-1" href="{{ url('/pdfCertificate/' . $id) }}">طباعة جميع شهادات المشاركين</a>
+                            <a class="btn btn-info   btn-md m-1" href="{{ url('/sentSmsCertificateAll/' . $id) }}">ارسال جميع الشهادات sms</a>
+                            <a class="btn btn-warning btn-md m-1" href="{{ url('/getMessage/' . $id) }}">اعدادات الرسائل</a>
+                            <form onclick="return confirm('هل انت متاكد من حذف جميع المشتركين ؟؟')" action="{{ url('/deleteAllPublishers/' . $id) }}" method="get">
+                                <button type="submit" class="btn btn-danger btn-md m-1" >حذف جميع المشتركين</button>
                             </form>
-                            <div class="d-flex justify-content-between">
-                                <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">إضافة قسم</a>
-
-                            </div>
-
-                            <a class="btn btn-danger btn-block" href="{{ url('/exportPublisher/'.$id) }}">تصدير من اكسل</a>
-                            <a class="btn btn-dark btn-block" href="">ارسال SMS جماعي</a>
-                            <a class="btn btn-secondary btn-block" href="{{ url('exporttopdfall/' . $id) }}">طباعة جميع بطاقات المشتركين</a>
                         </div>
 
                 </div>
+
                 <div class="card-body">
+
+
+                    <div>رابط السحب <a target="new" href="https://reg.carisma.tech/listEvent/{{$id}}">https://reg.carisma.tech/listEvent/{{$id}}</a></div>
                     @foreach($event as $e)
                         <div class="alert alert-info pt-4">
                             <h4>{{ $e->ename }}</h4>
@@ -67,6 +78,7 @@
                         <table class="table text-md-nowrap" id="example1">
                             <thead>
                             <tr>
+
                                 <th class="wd-15p border-bottom-0">الاسم</th>
                                 <th class="wd-15p border-bottom-0">رقم الهاتف</th>
                                 <th class="wd-20p border-bottom-0">الايميل</th>
@@ -75,49 +87,54 @@
                             </thead>
                             <tbody>
                             @foreach($list as $p)
-                                <tr>
+                                <tr id="tr_{{$p->pid}}">
                                     <td>{{ $p->pname }}</td>
                                     <td>{{ $p->pphone }}</td>
                                     <td>{{ $p->pemail }}</td>
                                     <td>
-                                        <a class="btn btn-dark btn-sm" href="{{ url('/' . 'exporttopdf/'. $p->pid) }}">طباعة البطاقة</a>
-                                        <a class="btn btn-dark btn-sm" href="#">ارسال sms</a>
-                                        <a class="btn btn-dark btn-sm" href="{{ url('/' . 'getPublisherid/' . $p->pid) }}">عرض التفاصيل</a>
+                                        <div class="btn-group dropleft">
+                                            <a class="btn btn-primary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                العمليات
+                                            </a>
+
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item btn btn-dark btn-sm" href="{{ url('/' . 'exporttopdf/'. $p->pid) }}">طباعة البطاقة</a>
+                                                <a class="dropdown-item btn btn-dark btn-sm" href="{{ url('/' . 'smssingle/'. $p->pid) }}">ارسال رسالة</a>
+                                                <a class="dropdown-item btn btn-dark btn-sm" href="{{ url('/' . 'getPublisherid/' . $p->pid) }}">عرض التفاصيل</a>
+                                                <a class="dropdown-item btn btn-dark btn-sm" href="{{ url('/' . 'pdfCertificateSingle/' . $p->pid) }}">طباعة شهادة</a>
+                                                <a class="dropdown-item btn btn-dark btn-sm" href="{{ url('/' . 'sentSmsCertificateSingle/' . $p->pid) }}">ارسال الشهادة SMS</a>
+                                                <a class="dropdown-item text-danger btn btn-dark btn-sm" href="{{ url('/deletePublisher/'.$p->pid) }}">حذف المشترك</a>
+                                            </div>
+                                            <input class="btn btn-danger btn-sm mr-2" onclick="deleterow({{$p->pid}})" type="button" value="X" name="{{ 'pname_'.$p->pid }}">
+                                        </div>
                                     </td>
+
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
                 </div>
 
+
             </div>
+
         </div>
+
         <div class="modal" id="modaldemo8">
             <div class="modal-dialog" role="document">
                 <div class="modal-content modal-content-demo">
                     <div class="modal-header">
-                        @if(Session::get('success'))
-                            <div class="alert alert-success">
-                                {{ session::get('success') }}
-                            </div>
-                        @endif
-
-                        @if(Session::get('fail'))
-                            <div class="alert alert-danger">
-                                {{ session::get('fail') }}
-                            </div>
-                        @endif
                         <h6 class="modal-title">استيراد من اكسيل</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <form action="{{ url('/importPublisher') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ url('/importPublisher/'.$id) }}" method="post" enctype="multipart/form-data">
 
                         <div class="modal-body">
                             @csrf
                             <input type="file" name="attatchment">
                             @error('attatchment')<div class="text-danger">{{$message}}</div>@enderror
                         </div>
-                        <div>
-                            <button class="btn ripple btn-primary"  type="submit">حفظ البيانات</button>
+                        <div class="pr-4 pb-2">
+                            <button class="btn ripple btn-success"  type="submit">حفظ البيانات</button>
                         </div>
                     </form>
 
@@ -127,6 +144,7 @@
                 </div>
             </div>
         </div>
+
     </div>
     <!-- row closed -->
     </div>
@@ -135,6 +153,22 @@
     <!-- main-content closed -->
 @endsection
 @section('js')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <script>
+        function deleterow(id){
+            $.get("/deleteCheck",
+                {
+                    id: id
+                },
+                function(data, status){
+                    // alert("Data: " + data + "\nStatus: " + status);
+                    document.getElementById('tr_'+id).innerHTML ="";
+                });
+        }
+
+    </script>
+
     <!-- Internal Data tables -->
     <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>

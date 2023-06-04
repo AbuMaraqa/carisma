@@ -69,6 +69,17 @@
                                     <input class="form-control" name="ebackground" type="file" id="formFile">
                                 </div>
                             </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="">يرجى اختيار مستخدم للفعالية الحالية</label>
+                                    <div class="form-group">
+                                        <select class="form-control" name="dropdownlist" id="dropdownlist">
+                                            @foreach($user as $key)--}}
+                                            <option value="{{ $key->id }}">{{ $key->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                            </div>
 
                             <div class="col-sm-6 col-md-3">
                                 <button class="btn btn-primary btn-block">اضافة البيانات</button>

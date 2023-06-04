@@ -29,6 +29,9 @@
                                     <h4 class="card-title mg-b-0">جدول المستخدمين</h4>
                                     <i class="mdi mdi-dots-horizontal text-gray"></i>
                                 </div>
+                                <div class=" col-3 btn-sm">
+                                    <a href="{{ url('/getAddPageUser') }}" class="btn btn-primary btn-block">اضافة مستخدم</a>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -37,7 +40,7 @@
                                         <tr>
                                             <th class="wd-15p border-bottom-0">الاسم</th>
                                             <th class="wd-15p border-bottom-0">الايميل</th>
-                                            <th class="wd-20p border-bottom-0">تغيير كلمة المرور</th>
+                                            <th class="wd-20p border-bottom-0">العمليات</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -47,7 +50,7 @@
                                                 <td>{{ $user->email }}</td>
                                                 <td>
                                                     <div class="col-sm-6 col-3">
-                                                        <button class="btn btn-primary btn-block">اضغط هنا</button>
+                                                        <a href="{{ url('/getUserData/'.$user->id) }}" class="btn btn-primary btn-dark">تعديل</a>
                                                     </div>
                                                 </td>
                                             </tr>

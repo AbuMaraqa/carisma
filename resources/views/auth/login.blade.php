@@ -20,11 +20,23 @@
                         <div class="row">
                             <div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
                                 <div class="card-sigin">
-                                    <div class="mb-5 d-flex"> <a href="{{ url('/' . $page='Home') }}"></a><h1 class="main-logo1 ml-1 mr-0 my-auto tx-28"><span>BFound للحلول البرمجية</span></h1></div>
+                                    <h1 style="font-size: 50px;font-weight: bold" align="center">ICES</h1>
+                                    <div class="mb-5 d-flex"> <a href="{{ url('/' . $page='Home') }}"></a><h1 class="main-logo1 ml-1 mr-0 my-auto tx-28"><span>Carisma Onile Portal</span></h1></div>
                                     <div class="card-sigin">
                                         <div class="main-signup-header">
                                             <h2>مرحبا بك</h2>
                                             <h5 class="font-weight-semibold mb-4"> تسجيل الدخول</h5>
+                                            @if(Session::get('success'))
+                                                <div class="alert alert-success">
+                                                    {{ session::get('success') }}
+                                                </div>
+                                            @endif
+
+                                            @if(Session::get('fail'))
+                                                <div class="alert alert-danger">
+                                                    {{ session::get('fail') }}
+                                                </div>
+                                            @endif
                                             <form method="POST" action="{{ route('login') }}">
                                                 @csrf
                                                 <div class="form-group">

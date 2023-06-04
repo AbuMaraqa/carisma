@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Mockery\Matcher\Closure;
 
 class LoginController extends Controller
 {
@@ -35,6 +37,18 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout');
     }
+
+
+///    home is the default/fallback url
+    public function handle($request, \Closure $next, $guard = null)
+    {
+        if (Auth::check() && (Auth::user()->int_role_id == Roles::ROLE_USER)) {
+            return $next($request);
+        }
+
+        return redirect()->intended('/home');
+    }
+
 }

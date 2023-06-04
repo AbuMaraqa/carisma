@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Events;
+use App\Models\MainSetting;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Routing\Redirector;
 
 class EventController extends Controller
 {
     public function listEvents(){
-        $list = Event::all();
+        $list = Event::orderBy('eid','DESC')->get();
         return view('events.events',['events'=>$list]);
     }
 
@@ -32,24 +35,23 @@ class EventController extends Controller
         $event->edescription = $request->edescription;
 
         if($request->hasFile('eimage')){
-            $destination_path = 'public/storage/images/BFound';
-            $image = $request->file('eimage');
-            $image_name = $image->getClientOriginalName();
-            $path = $request->file('eimage')->storeAs($destination_path,$image_name);
-
-            $event->eimage = $image_name;
+            $file_extention = $request->eimage ->getClientOriginalName();
+            $file_name = time().".".$file_extention;
+            $path = 'storage/images/BFound';
+            $request->eimage ->move($path,$file_name);
+            $event->eimage = $file_name;
         }
 
         if($request->hasFile('ebackground')){
-            $destination_path = 'public/storage/images/BFound';
-            $image = $request->file('ebackground');
-            $image_name = $image->getClientOriginalName();
-            $path = $request->file('ebackground')->storeAs($destination_path,$image_name);
-
-            $event->ebackground = $image_name;
-        }
+            $file_extention = $request->ebackground ->getClientOriginalName();
+            $file_name = time().".".$file_extention;
+            $path = 'storage/images/BFound';
+            $request->ebackground ->move($path,$file_name);
+            $event->ebackground = $file_name;
+            }
 
         $event->estatus = true;
+        $event->AuthUser = $request->dropdownlist;
 
 //        $imageName = time().'.'.request()->image->getClientOriginalExtension();
 //        request()->image->move(public_path('images'), $imageName);
@@ -66,27 +68,65 @@ class EventController extends Controller
     public function getDataUpdate($id){
 
         $query = DB::select('select * from events where eid = ?',[$id]);
-
+        $user = DB::select('select * from users');
         //$request->ename = $event->ename;
-
         //return $query;
-        return view('events.updateevent',['query'=>$query]);
+        return view('events.updateevent',['query'=>$query,'user'=>$user]);
     }
 
     public function updateEvents(Request $request,$id){
-        //$find = DB::select('select * from events where eid = :eid',['eid'=>$id])[0];
 
-        $event = DB::update('update events set ename = ? ,edate = ? ,edescription = ? ,estatus = ? where eid  = ?' ,
-            [$request->ename,$request->edate,$request->edescription,$request->estatus,$id]);
+        $post = DB::select('select * from events where eid = ?',[$id])[0];
 
-        if ($event)
+        $photo = "";
+        if($request->hasFile('eimage')){
+            $file_extention = $request->eimage ->getClientOriginalName();
+            $file_name = time().".".$file_extention;
+            $path = 'assets/images/BFound';
+            $request->eimage ->move($path,$file_name);
+            $photo = $file_name;
+        }
+        else{
+            $photo = $post->eimage;
+        }
+
+        $background = "";
+
+        if($request->hasFile('ebackground')){
+            $file_extention = $request->ebackground ->getClientOriginalName();
+            $file_name = time().".".$file_extention;
+            $path = 'assets/images/BFound';
+            $request->ebackground ->move($path,$file_name);
+            $background = $file_name;
+        }
+        else{
+            $background = $post->ebackground;
+        }
+
+        $certificateimage = "";
+
+        if($request->hasFile('attatchment')){
+            $file_extention = $request->attatchment ->getClientOriginalName();
+            $file_name = time().".".$file_extention;
+            $path = 'assets/images/BFound';
+            $request->attatchment ->move($path,$file_name);
+            $certificateimage = $file_name;
+        }
+        else{
+            $certificateimage = $post->certificateimage;
+        }
+
+        if ($post)
         {
-            return ['status'=>'true'];
+            DB::update('update events set ename = ? , edate = ? , edescription = ? , estatus = ? , eimage = ? , ebackground = ? , AuthUser = ? , certificateimage = ? where eid = ?',[$request->ename,$request->edate,$request->edescription,true,$photo,$background,$request->dropdownlist , $certificateimage,$id]);
+            return back()->with('success','تم التعديل بنجاح');
         }
         else
         {
-            return ['status'=>'false'];
+            return back()->with('fail','لم يتم التعديل');
         }
+
+
     }
 
     public function statusDisable(Request $request,$id){
@@ -111,5 +151,50 @@ class EventController extends Controller
         $event = DB::select('select * from events where eid = :id',['id'=>$id]);
         return $query;
     }
+
+    public function deleteEvent($id){
+        $query = DB::table('events')->where('eid',$id)->delete();
+
+        if ($query){
+            return back()->with('success','تم حذف المناسبة بنجاح');
+        }
+        else{
+            return back()->with('fail','لم يتم حذف المناسبة');
+        }
+    }
+
+    public function settingEvent(){
+        $query = DB::table('events')->get();
+        $publisher = DB::table('publishers')->get();
+        return view('setting.index',['query'=>$query,'publishers'=>$publisher]);
+    }
+
+    public function getEventName(){
+        $query = DB::select('select * from settings inner join events on settings.mainevent = events.eid where settings.id = 1');
+        return $query;
+    }
+
+    public function setRegBackground(Request $request){
+
+        $background = "";
+        if($request->hasFile('image')){
+            $file_extention = $request->image ->getClientOriginalName();
+            $file_name = time().".".$file_extention;
+            $path = 'assets/images/BFound';
+            $request->image ->move($path,$file_name);
+            $background = $file_name;
+        }
+
+        $query = DB::update('update events set regbackground = ?',[$background]);
+
+        if ($query){
+            return redirect()->back()->with('success','تم تعديل الصورة بنجاح');
+        }
+        else{
+            return redirect()->back()->with('fail','يرجى اضافة صورة');
+        }
+    }
+
+
 
 }

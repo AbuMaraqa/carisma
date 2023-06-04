@@ -47,10 +47,18 @@
                             {{ session::get('fail') }}
                         </div>
                     @endif
+                        @if($errors->any())
+                            <ol>
+                                @foreach($errors->all() as $error)
+                                <li class="alert alert-danger"> {{ $error }} </li>
+                                @endforeach
+                            </ol>
+                        @endif
                     <div class="table-responsive">
 
-                        <form action="/createPublisher" method="post">
+                        <form action="/createPublisher" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('POST')
                             <input name="peventid" type="hidden" value="{{ $id }}">
                             <div class="form-group">
                                 <label for="">اسم المشارك</label>
