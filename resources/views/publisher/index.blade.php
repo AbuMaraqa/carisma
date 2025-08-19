@@ -48,21 +48,29 @@
                         <h4 class="card-title mg-b-0">جدول المشتركين</h4>
                         <i class="mdi mdi-dots-horizontal text-gray"></i>
                     </div>
-                        <div class="row">
-                            <a class="btn btn-primary btn-md m-1" href="{{ url('/addPublisher/'. $id) }}">إضافة مشارك</a>
+                    <div class="row">
+                        <a class="btn btn-primary btn-md m-1" href="{{ url('/addPublisher/'. $id) }}">إضافة مشارك</a>
 
-                            <a class="modal-effect btn btn-success btn-md m-1" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">استيراد من اكسل</a>
+                        <a class="modal-effect btn btn-success btn-md m-1" data-effect="effect-scale"
+                           data-toggle="modal" href="#modaldemo8">استيراد من اكسل</a>
 
-                            <a class="btn btn-danger btn-md m-1" href="{{ url('/exportPublisher/'.$id) }}">تصدير الى اكسل</a>
-                            <a class="btn btn-dark btn-md m-1" href="{{ url('/smsall/'.$id) }}">ارسال SMS جماعي</a>
-                            <a class="btn btn-secondary btn-md m-1" href="{{ url('exporttopdfall/' . $id) }}">طباعة جميع بطاقات المشتركين</a>
-                            <a class="btn btn-info   btn-md m-1" href="{{ url('/pdfCertificate/' . $id) }}">طباعة جميع شهادات المشاركين</a>
-                            <a class="btn btn-info   btn-md m-1" href="{{ url('/sentSmsCertificateAll/' . $id) }}">ارسال جميع الشهادات sms</a>
-                            <a class="btn btn-warning btn-md m-1" href="{{ url('/getMessage/' . $id) }}">اعدادات الرسائل</a>
-                            <form onclick="return confirm('هل انت متاكد من حذف جميع المشتركين ؟؟')" action="{{ url('/deleteAllPublishers/' . $id) }}" method="get">
-                                <button type="submit" class="btn btn-danger btn-md m-1" >حذف جميع المشتركين</button>
-                            </form>
-                        </div>
+                        <a class="btn btn-danger btn-md m-1" href="{{ url('/exportPublisher/'.$id) }}">تصدير الى
+                            اكسل</a>
+                        <a class="btn btn-dark btn-md m-1" href="{{ url('/smsall/'.$id) }}">ارسال SMS جماعي</a>
+                        <a class="btn btn-secondary btn-md m-1" href="{{ url('exporttopdfall/' . $id) }}">طباعة جميع
+                            بطاقات المشتركين</a>
+                        <a class="btn btn-info   btn-md m-1" href="{{ url('/pdfCertificate/' . $id) }}">طباعة جميع
+                            شهادات المشاركين</a>
+                        <a class="btn btn-info   btn-md m-1" href="{{ url('/sentSmsCertificateAll/' . $id) }}">ارسال
+                            جميع الشهادات sms</a>
+                        <a class="btn btn-warning btn-md m-1" href="{{ url('/getMessage/' . $id) }}">اعدادات الرسائل</a>
+                        <a class="btn btn-warning btn-md m-1" href="{{ url('/eventsFieldPage/' . $id) }}">حقول
+                            الايفنت</a>
+                        <form onclick="return confirm('هل انت متاكد من حذف جميع المشتركين ؟؟')"
+                              action="{{ url('/deleteAllPublishers/' . $id) }}" method="get">
+                            <button type="submit" class="btn btn-danger btn-md m-1">حذف جميع المشتركين</button>
+                        </form>
+                    </div>
 
                 </div>
 

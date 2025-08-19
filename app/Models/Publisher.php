@@ -21,4 +21,6 @@ class Publisher extends Model
         'peffict1',
         'peffict2'
     ];
+
+    protected $primaryKey = 'pid';
 }

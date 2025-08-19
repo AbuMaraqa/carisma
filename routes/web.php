@@ -43,6 +43,10 @@ Route::get('/addEvent',function (){
     return view('events.addevent',['user'=>$user]);
 });
 
+Route::post('/events/{event}/fields', [\App\Http\Controllers\FieldsController::class, 'store'])->name('events.fields.store');
+Route::delete('/events/fields/{field}', [\App\Http\Controllers\FieldsController::class, 'destroy'])->name('events.fields.destroy');
+Route::post('/events/{event}/fields/sort', [\App\Http\Controllers\FieldsController::class, 'sort'])->name('events.fields.sort');
+
 Route::post('/createEvent',[App\Http\Controllers\EventController::class, 'createEvent']);
 
 Route::get('/getEventId/{id}',[App\Http\Controllers\EventController::class, 'getEventId']);
@@ -54,6 +58,8 @@ Route::get('/addPublisher/{id}', [App\Http\Controllers\PublisherController::clas
 Route::get('/exporttopdf/{id}',[App\Http\Controllers\PublisherController::class, 'generatePdf']);
 
 Route::get('/getPublisherid/{id}',[App\Http\Controllers\PublisherController::class,'getPublisherid']);
+
+Route::get('/eventsFieldPage/{eventid}',[App\Http\Controllers\PublisherController::class,'eventsFieldPage']);
 
 Route::get('/exportPublisher/{id}',[App\Http\Controllers\ExportPublisher::class , 'export']);
 

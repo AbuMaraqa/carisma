@@ -18,4 +18,15 @@ class Event extends Model
         'ebackground'
     ];
 
+    protected $primaryKey = 'eid';
+
+    public function fields()
+    {
+        return $this->hasMany(Field::class, 'event_id', 'eid');
+    }
+
+    public function publishers() // المشاركون
+    {
+        return $this->hasMany(Publisher::class, 'peventid', 'eid');
+    }
 }

@@ -561,4 +561,10 @@ class PublisherController extends Controller
         }
         return $delete;
     }
+
+    public function eventsFieldPage($eventid)
+    {
+        $event = Event::find($eventid);
+        return view('publisher.events_fields',['eventid'=>$eventid , 'event'=>$event]);
+    }
 }
